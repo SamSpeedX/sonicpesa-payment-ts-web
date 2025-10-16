@@ -5,7 +5,7 @@ interface PaymentForm {
   name: string;
   email: string;
   phone: string;
-  amount: string;
+  amount: number;
 }
 
 interface PaymentData {
@@ -20,7 +20,7 @@ const App: React.FC = () => {
     name: "",
     email: "",
     phone: "",
-    amount: "",
+    amount: 0,
   });
 
   const [loading, setLoading] = useState(false);
