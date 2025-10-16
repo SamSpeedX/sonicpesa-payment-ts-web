@@ -1,5 +1,17 @@
+# Node / package manager
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+dist-ssr/
+dist-obf/                # obfuscated build output
+build/
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,19 +19,51 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Env files (sensitive)
+.env
+.env.local
+.env.*.local
+.env.* 
 *.local
-*.env
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# OS files
+Thumbs.db
+ehthumbs.db
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Cache / bundlers
+.cache/
+.vite/
+.cache-loader/
+.parcel-cache/
+.sass-cache/
+dist-temp/
+
+# Debug / inspector / runtime
+*.pid
+*.seed
+*.pid.lock
+pids/
+debug.log
+pids/
+*.tgz
+
+# Misc
+public/*.map
+*.local
+/.history
+*.iml
