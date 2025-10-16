@@ -3,26 +3,21 @@ import axios from "axios";
 const API_KEY = "pk_YOUR_API_KEY";
 
 interface PaymentData {
-    phone: string;
-    amount: number;
     name: string;
     email: string;
+    phone: string;
+    amount: number;
 }
 
 interface PaymentResponse {
     success: boolean;
     message: string;
-    data?: any;
+    data?: unknown;
 }
 
 export const createPayment = async (paymentData: PaymentData): Promise<void> => {
     try {
-        // const paymentData: PaymentData = {
-        //     phone: "255657779003",
-        //     amount: 5000,
-        //     name: "Benjamini Omary",
-        //     email: "sam@gmail.com",
-        // };
+
 
         const response: PaymentResponse = await axios.post(
             "https://sonicpesa.com/api/payment/create",
