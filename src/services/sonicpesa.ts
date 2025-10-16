@@ -31,11 +31,13 @@ export const createPayment = async (paymentData: PaymentData): Promise<void> => 
         );
 
         console.log("Payment created successfully: ", response.data);
-    } catch (error: any) {
-        if (error.response) {
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
             console.error("❌ API Error:", error.response.data);
-        } else {
+        } else if (error instanceof Error) {
             console.error("❌ Request Error:", error.message);
+        } else {
+            console.error("❌ An unknown error occurred.");
         }
     }
 };
