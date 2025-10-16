@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY = "pk_YOUR_API_KEY";
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 interface PaymentData {
     name: string;
