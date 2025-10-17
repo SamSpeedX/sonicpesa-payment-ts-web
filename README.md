@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# simple-payment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal HTTP payment API demonstrating integration with the SonicPesa payment provider. Designed as a small, production-capable starter: create payments, proxy provider calls (auth/signature), receive and verify webhooks, and persist state (in-memory or configurable DB).
 
-Currently, two official plugins are available:
+## Quick overview
+- Language/runtime: Node (recommended >=16)
+- Purpose: Reference starter for creating payments
+- Location: /SamSpeedX/simple-payment (root README)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- Create / query / (optionally) cancel payments
+- Proxy requests to SonicPesa with API key/signature handling
+- Webhook receiver with HMAC signature verification
+- Configurable persistence: in-memory (dev) or database (prod)
+- Health and metrics endpoints
 
-## React Compiler
+## Requirements
+- Node 16+ and npm (or yarn)
+- Git
+- Docker (optional)
+- SonicPesa sandbox/test credentials for integration testing
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Install
+1. Clone and open the project
+  git clone <repository-url>
+  cd sonicpesa/simple-payment
 
-## Expanding the ESLint configuration
+2. Install
+  npm install
+  # or
+  yarn
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Configuration (env)
+Create a .env for local development or set the following in your environment:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- VITE_API_KEY
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Example .env:
+```env
+VITE_API_KEY=pk_test_xxx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Run
+Development:
+npm run dev
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Build + production:
+npm run build
+npm start
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Deployment notes
+- Use managed DB in production; avoid in-memory stores
+- Serve behind HTTPS, validate webhooks, rotate secrets/API keys periodically
+- Monitor health/metrics and implement retries/backoff for provider calls
+
+## Contributing & License
+- Fork, branch, test, open PR. Follow lint/tests in repository.
+
+---
+
+- Developed by Sam Software.
