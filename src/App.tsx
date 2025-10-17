@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createPayment } from "./services/sonicpesa";
+import Swal from "sweetalert2";
 
 interface PaymentForm {
   name: string;
@@ -15,12 +16,18 @@ interface PaymentData {
     amount: number;
 }
 
+interface PaymentResponse {
+    success: boolean;
+    message: string;
+    data?: unknown | any;
+}
+
 const App: React.FC = () => {
   const [formData, setFormData] = useState<PaymentForm>({
     name: "",
     email: "",
     phone: "",
-    amount: 0,
+    amount: 1000,
   });
 
   const [loading, setLoading] = useState(false);
@@ -42,15 +49,30 @@ const App: React.FC = () => {
           name: formData.name,
           email: formData.email,
       };
-      const res = await createPayment(paymentData)
+      const res: PaymentResponse = await createPayment(paymentData)
       console.log("Response: ", res)
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      setMessage("✅ Payment successful!");
-      // setFormData({ name: "", email: "", phone: "", amount: "" });
-    } catch (error: unknown) {
-      setMessage("❌ Payment failed. Try again.");
+      if (res.success === true) {
+        Swal.fire({
+          title: "Payment initiated successfully",
+          text: `notification sent to your number. transaction_id: ${res.data.transaction_id}`,
+          icon: "success"
+        });
+      }
+      if (res.success === false) {
+        Swal.fire({
+          title: "Payment initiated fail",
+          text: `${res.message}`,
+          icon: "warning"
+        });
+      }
+    } catch (error) {
       console.log("Error: ", error)
+      Swal.fire({
+        title: 'Payment failed',
+        text: `${error}`,
+        icon: 'info',
+      });
+
     } finally {
       setLoading(false);
     }

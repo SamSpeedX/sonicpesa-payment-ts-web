@@ -15,10 +15,8 @@ interface PaymentResponse {
     data?: unknown;
 }
 
-export const createPayment = async (paymentData: PaymentData): Promise<void> => {
+export const createPayment = async (paymentData: PaymentData) => {
     try {
-
-
         const response: PaymentResponse = await axios.post(
             "https://sonicpesa.com/api/payment/create",
             paymentData,
@@ -29,15 +27,24 @@ export const createPayment = async (paymentData: PaymentData): Promise<void> => 
                 },
             }
         );
-
         console.log("Payment created successfully: ", response.data);
+        const data = response.data;
+        return data;
     } catch (error: unknown) {
-        if (axios.isAxiosError(error) && error.response) {
-            console.error("❌ API Error:", error.response.data);
-        } else if (error instanceof Error) {
-            console.error("❌ Request Error:", error.message);
-        } else {
-            console.error("❌ An unknown error occurred.");
-        }
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data || error.message;
+        console.error("❌ API Error:", message);
+        return message;
+      }
+    
+      if (error instanceof Error) {
+        // Standard JS error
+        console.error("❌ Request Error:", error.message);
+        return error.message;
+      }
+    
+      console.error("❌ An unknown error occurred.");
+      return "An unknown error occurred";
     }
+
 };
